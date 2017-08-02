@@ -1,12 +1,7 @@
-$(document).ready(function(){
-	var locations = [
-		{
-			latitude: '-33.4488897', 
-			longitude: '-70.6692655'
-		}
-	];
 
-	var mostrarDia = function(data) {
+$(document).ready(function(){
+
+	var mostrar = function(data) {
 		// Variables obligatorias
 		var longitude = "";
 		var latitude = "";
@@ -109,24 +104,20 @@ $(document).ready(function(){
 		});
 	}
 
-	var ajaxGif = function(gif) {
-		$.ajax({
-			url: 'https://api.darksky.net/forecast/9509ed01d76850dc7bde6dde6caad55f/-33.4489,-70.6693',
-			type: 'GET',
-			datatype: 'json',
-			data: {
-				api_key: '9509ed01d76850dc7bde6dde6caad55f'
-			}
-		})
-		.done(function(response) {
-			console.log(response);
-			mostrarDia(response.data);
-			mostrarSemana(response.data);
-		})
-		.fail(function() {
-			console.log("error");
-		});
-	}
+
+	$.ajax({
+		url: 'https://api.darksky.net/forecast/9509ed01d76850dc7bde6dde6caad55f/-33.4489,-70.6693',
+		type: 'GET',
+		datatype: 'json'
+		
+	})
+	.done(function(response) {
+		console.log(response);
+		mostrar(response.data);
+	})
+	.fail(function() {
+		console.log("error");
+	});
 
 	$("#btn-dia").click(function(event) {
 		$("#card-dia").hide();
