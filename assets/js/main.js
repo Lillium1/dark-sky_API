@@ -12,13 +12,18 @@ $(document).ready(function(){
 		var latitude = "";
 		var timezone = "";
 
-		// Variables Opcionales
-		var estadoClima = "";
-		var temperature = ""
-		var wind = "";
-		var humidity = "";
-		var uv = "";
-		var pressure = "";
+		// Variables Opcionales hoy
+		var lunes = "";
+		var martes = ""
+		var miercoless = "";
+		var jueves = "";
+		var viernes = "";
+		var sabado = "";
+		var domingo = "";
+
+		// Variables Opcionales semana
+		var tempMin = "";
+		var tempMax = "";
 
 
 		// Recorrido
@@ -27,13 +32,18 @@ $(document).ready(function(){
 			longitude = element.longitude;
 			timezone = element.timezone;
 
+			// hoy
 			estadoClima = element.currently.icon;
 			temperature = element.currently.temperature;
+			// semana
+			tempMin = element.daily.data.temperatureMin;
+			tempMax = element.daily.data.temperatureMax;
 
 			wind = element.currently.windSpeed;
 			humidity = element.currently.humidity;
 			uv = element.currently.ozone;
 			pressure = element.currently.pressure;
+
 
 			
 			// soleado
@@ -91,11 +101,13 @@ $(document).ready(function(){
 
 			// Incorporar el resultado al html
 			$("#grados").append('<h3 class="text-center">'+temperature+'</h3>');
-			$("#col-B").append('<h5 class="text-right">'+wind+'</h5><h5 class="text-right">'+humidity+'</h5><h5 class="text-right">'+uv+'</h5><h5 class="text-right">'+pressure+'</h5>');
+			$("#col-hoy-result").append('<h5 class="text-right">'+wind+'</h5><h5 class="text-right">'+humidity+'</h5><h5 class="text-right">'+uv+'</h5><h5 class="text-right">'+pressure+'</h5>');
+			$("#col-semana").append(estadoClima+'<h5>MONDAY</h5>'+ estadoClima + '<h5>TUESDAY</h5>'+ estadoClima+ '<h5>WEDNESDAY</h5>'+estadoClima+'<h5>THURSDAY</h5>'+estadoClima+'<h5>FRIDAY</h5>'+estadoClima+'<h5>SATURDAY</h5>'+estadoClima+'<h5>SUNDAY</h5>')
+			$("#col-semana-result").append('<h5 class="text-right">'+temperatureMin+'º - '+temperatureMax+'º</h5>');
+
 
 		});
 	}
-	
 
 	var ajaxGif = function(gif) {
 		$.ajax({
@@ -127,3 +139,4 @@ $(document).ready(function(){
 	});
 
 });
+
