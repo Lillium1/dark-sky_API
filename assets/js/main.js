@@ -29,14 +29,17 @@ $(document).ready(function(){
 
 			estadoClima = element.currently.icon;
 			temperature = element.currently.temperature;
+
 			wind = element.currently.windSpeed;
 			humidity = element.currently.humidity;
 			uv = element.currently.ozone;
 			pressure = element.currently.pressure;
 
-	if(a > b) {
-		$("body").html("<p>A is larger than B</p>");
-	}
+			
+			// soleado
+			if (estadoClima == "clear-day") {
+				$("#icon-clima").append('<img src="assets/iconos/clear-night.png"')
+			}
 			// noche
 			if (estadoClima == "clear-night") {
 				$("#icon-clima").append('<img src="assets/iconos/clear-night.png"')
@@ -45,84 +48,82 @@ $(document).ready(function(){
 			if (estadoClima == "cloudy") {
 				$("#icon-clima").append('<img src="assets/iconos/cloudy.png"')
 			} 
-			// nublado
+			// niebla
 			if (estadoClima == "fog") {
 				$("#icon-clima").append('<img src="assets/iconos/fog.png"')
 			}
-			// nublado
+			// parcialmente nublado dia
 			if (estadoClima == "partly-cloudy-day") {
 				$("#icon-clima").append('<img src="assets/iconos/partly-cloudy-day.png"')
 			}
-			// nublado
+			// parcialmente nublado noche
 			if (estadoClima == "partly-cloudy-night") {
 				$("#icon-clima").append('<img src="assets/iconos/partly-cloudy-night.png"')
 			}
-			// nublado
+			// lluvia dia
 			if (estadoClima == "rain-day") {
 				$("#icon-clima").append('<img src="assets/iconos/rain-day.png"')
 			}
-			// nublado
+			// lluvia noche
 			if (estadoClima == "rain-night") {
 				$("#icon-clima").append('<img src="assets/iconos/rain-night.png"')
 			}
-			// nublado
+			// lluvia
 			if (estadoClima == "rain") {
 				$("#icon-clima").append('<img src="assets/iconos/rain.png"')
 			}
-			// nublado
+			// agua nieve
 			if (estadoClima == "sleet") {
 				$("#icon-clima").append('<img src="assets/iconos/sleet.png"')
 			}
-			// nublado
+			// nieve dia
 			if (estadoClima == "snow-day") {
 				$("#icon-clima").append('<img src="assets/iconos/snow-day.png"')
 			}
-			// nublado
+			// nieve noche
 			if (estadoClima == "snow-night") {
 				$("#icon-clima").append('<img src="assets/iconos/snow-night.png"')
 			}
-			// nublado
+			// nieve
 			if (estadoClima == "snow") {
 				$("#icon-clima").append('<img src="assets/iconos/snow.png"')
 			}
 
+			// Incorporar el resultado al html
+			$("#grados").append('<h3 class="text-center">'+temperature+'</h3>');
+			$("#col-B").append('<h5 class="text-right">'+wind+'</h5><h5 class="text-right">'+humidity+'</h5><h5 class="text-right">'+uv+'</h5><h5 class="text-right">'+pressure+'</h5>');
 
-			else {
-				$("#icon-clima").append('<img src="assets/iconos/1498814600_sun_simplepng"')
-			}
-
-			$("#card-dia").append(armarTemplate(estadoClima,temperature,wind,humidity,uv,pressure));
 		});
 	}
-
-	var armarTemplate = function(gif,url) {
-		var t = '<div id="card-dia"><div class="row"><div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><div class="icon-clima">hola</div></div></div></div>'
-		return t;
-	}
+	
 
 	var ajaxGif = function(gif) {
 		$.ajax({
-			url: 'https://api.giphy.com/v1/gifs/search',
+			url: 'https://api.darksky.net/forecast/9509ed01d76850dc7bde6dde6caad55f/-33.4489,-70.6693',
 			type: 'GET',
 			datatype: 'json',
 			data: {
-				q: gif,
-				api_key: 'dc6zaTOxFJmzC'
+				api_key: '9509ed01d76850dc7bde6dde6caad55f'
 			}
 		})
 		.done(function(response) {
 			console.log(response);
-			dibujarGifs(response.data);
+			mostrarDia(response.data);
+			mostrarSemana(response.data);
 		})
 		.fail(function() {
 			console.log("error");
 		});
 	}
 
-	$("#buscar-gif").click(function(event) {
-		console.log("Entro");
-		$("#elementos").empty();
-		var gif = $("#gif-text").val();
-		ajaxGif(gif);
+	$("#btn-dia").click(function(event) {
+		$("#card-dia").hide();
+		$("#card-semana").show();
 	});
+
+	$("#btn-semana").click(function() {
+		$("#card-semana").hide();
+		$("#card-dia").show();
+	});
+
 });
